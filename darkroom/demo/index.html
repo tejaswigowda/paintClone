@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DarkroomJS</title>
+  <link rel="stylesheet" href="./build/darkroom.css">
+  <link rel="stylesheet" href="./css/page.css">
+</head>
+<body>
+  <header id="header">
+    <a href="https://github.com/MattKetmo/darkroomjs">
+      <img style="position: absolute; top: 0; right: 0; border: 0;"
+        src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png"
+        alt="Fork on GitHub">
+    </a>
+
+    <div class="container">
+      <h1>Darkroom<strong>JS</strong></h1>
+      <p class="hero">
+        Extensible image editing tool powered by HTML5 canvas.
+      </p>
+    </div>
+  </header>
+
+  <div id="content">
+    <div class="container">
+      <section class="copy">
+        <h2 class="sr-only">Introduction</h2>
+
+        <p class="intro">
+          <strong>DarkroomJS</strong> is a JavaScript library which provides basic
+          image editing tools in your browser, such as <strong>rotation</strong> or <strong>cropping</strong>.
+          It is based on the awesome <a href="http://fabricjs.com/">FabricJS</a> library
+          to handle images in HTML5 canvas.
+        </p>
+
+        <div class="figure-wrapper">
+          <figure class="image-container target">
+            <img src="data:image/jpeg;base64,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" alt="DomoKun" id="target">
+
+            <figcaption class="image-meta">
+              <a target="_blank" href="http://www.flickr.com/photos/bentorode/5176910387/">
+                ©
+                <strong class="image-meta-title">DomoKun</strong>
+                by
+                <em class="image-meta-author">Ben Torode</em>
+              </a>
+            </figcaption>
+          </figure>
+        </div>
+
+        <h2>Why?</h2>
+
+        <p>
+          It's easy to get a <a href="http://www.hotscripts.com/blog/javascript-image-cropping-scripts/">
+          javascript script</a> to crop an image in a web page. But if you want
+          more features like rotation or brightness adjustment, then you will have to do all of this yourself.
+          No more jQuery plugins here. DarkroomJS allows you to do whatever you want with your images by
+          using the power of the HTML5 canvas.
+        </p>
+
+        <h2>The concept</h2>
+
+        <p>
+          The library is designed to be easily extendable.
+          The core script only transforms the target image to a canvas with a
+          FabricJS instance, and creates an empty toolbar.
+          All the features are then implemented in separate plugins.
+        </p>
+
+        <figure>
+        <pre><code>.
+├── darkroom.js
+└── plugins
+    ├── darkroom.crop.js
+    ├── darkroom.history.js
+    ├── darkroom.rotate.js
+    └── darkroom.save.js</code></pre>
+        </figure>
+
+        <p>
+          Each plugin is responsible for creating its own functionality.
+          Buttons can easily be added to the toolbar and binded with those features.
+        </p>
+
+        <h2>Features</h2>
+
+        <p>
+          Currently, the implemented features are:
+        </p>
+
+        <dl>
+          <dt>Crop</dt>
+          <dd>
+            Crops the image by selecting a zone with your mouse.
+            This supports several options like ratio and dimensions control (min/max).
+          </dd>
+
+          <dt>Rotation</dt>
+          <dd>
+            Adds two buttons to let you rotate the image left or right.
+          </dd>
+
+          <dt>History</dt>
+          <dd>
+            Allows you to undo and redo any changes you've made to the image.
+          </dd>
+
+          <dt>Save</dt>
+          <dd>
+            Transforms the canvas back into an image.
+            This is mainly a proof of concept to show how plugins work.
+            This plugin only takes <a href="https://github.com/MattKetmo/darkroomjs/blob/master/lib/js/plugins/darkroom.save.js">a few lines</a>.
+          </dd>
+        </dl>
+
+        <!--
+        <h2>Interactive example</h2>
+        <p></p>
+        -->
+
+        <h2>Contributing</h2>
+
+        <p>
+          The project is released under the MIT license.
+          Feel free to fork the project on <a href="https://github.com/MattKetmo/darkroomjs">GitHub</a>
+          or report issues. All ideas are also welcome.
+        </p>
+
+      </section>
+    </div>
+  </div>
+
+  <script src="./vendor/fabric.js"></script>
+  <script src="./build/darkroom.js"></script>
+
+  <script>
+    var dkrm = new Darkroom('#target', {
+      // Size options
+      minWidth: 100,
+      minHeight: 100,
+      maxWidth: 600,
+      maxHeight: 500,
+      ratio: 4/3,
+      backgroundColor: '#000',
+
+      // Plugins options
+      plugins: {
+        //save: false,
+        crop: {
+          quickCropKey: 67, //key "c"
+          //minHeight: 50,
+          //minWidth: 50,
+          //ratio: 4/3
+        }
+      },
+
+      // Post initialize script
+      initialize: function() {
+        var cropPlugin = this.plugins['crop'];
+        // cropPlugin.selectZone(170, 25, 300, 300);
+        cropPlugin.requireFocus();
+      }
+    });
+  </script>
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-23657373-2', 'mattketmo.github.io');
+    ga('send', 'pageview');
+  </script>
+</body>
+</html>

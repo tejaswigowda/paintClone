@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+  <link rel="stylesheet" href="darkroom/build/darkroom.css">
+	<link rel="stylesheet" type="text/css" media="screen" href="fa/font-awesome.css">
+  <script src="darkroom/demo/vendor/fabric.js"></script>
+<style>
+  body{
+    padding: 10px;
+    background: black;
+  }
+</style>
+</head>
+
+<body onload='start()'>
+<div style='margin-top:60px' class="picEditWrapper">
+<img id="target" class="editImg" src="">
+</div>
+ 
+
+  <script src="darkroom/lib/js/core/darkroom.js"></script>
+  <script src="darkroom/lib/js/core/ui.js"></script>
+  <script src="darkroom/lib/js/core/utils.js"></script>
+  <script src="darkroom/lib/js/core/transformation.js"></script>
+  <script src="darkroom/lib/js/core/plugin.js"></script>
+  <script src="darkroom/lib/js/plugins/darkroom.crop.js"></script>
+  <script src="darkroom/lib/js/plugins/darkroom.history.js"></script>
+  <script src="darkroom/lib/js/plugins/darkroom.rotate.js"></script>
+  <script src="darkroom/lib/js/plugins/darkroom.save.js"></script>
+
+
+
+  <script>
+function convertImgToDataURLviaCanvas(url, callback){
+    var img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.onload = function(){
+        var canvas = document.createElement('CANVAS');
+        var ctx = canvas.getContext('2d');
+        var dataURL;
+        canvas.height = this.height;
+        canvas.width = this.width;
+        ctx.drawImage(this, 0, 0);
+        dataURL = canvas.toDataURL("png");
+        callback(dataURL);
+        canvas = null; 
+    };
+    img.src = url;
+}
+
+    function start(){
+      var url = window.location.hash.replace("#","");
+      convertImgToDataURLviaCanvas(url, function(data){ 
+        document.getElementById("target").src = data;
+        setTimeout("__start()", 300);
+      });
+    }
+   function __start(){
+    var dkrm = new Darkroom('#target', {
+      // Size options
+      minWidth: 400,
+      minHeight: 300,
+      maxWidth: window.innerWidth,
+      maxHeight: window.innerHeight-100,
+      ratio: 4/3,
+      backgroundColor: '#000',
+
+      // Plugins options
+      plugins: {
+        save: false,
+        crop: {
+          quickCropKey: 67, //key "c"
+          //minHeight: 50,
+          //minWidth: 50,
+          //ratio: 4/3
+        }
+      },
+
+      // Post initialize script
+      initialize: function() {
+        var cropPlugin = this.plugins['crop'];
+        // cropPlugin.selectZone(170, 25, 300, 300);
+        cropPlugin.requireFocus();
+      }
+    });
+  
+  }
+  </script>
+
+
+       
+</body>
+</html>
