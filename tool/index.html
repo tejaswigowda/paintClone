@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Paint Clone</title>
+  <link rel="stylesheet" href="./libs/darkroom/darkroom.css">
+  <link rel="stylesheet" href="./css/page.css">
+<link rel="stylesheet" href="https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css" integrity="sha384-Wrgq82RsEean5tP3NK3zWAemiNEXofJsTwTyHmNb/iL3dP/sZJ4+7sOld1uqYJtE" crossorigin="anonymous">
+
+
+ <script src="./libs/snap/snap.svg-min.js"></script>
+
+</head>
+<body>
+  <div id="content">
+    <div class="container">
+      <section class="copy">
+        <div class="figure-wrapper">
+          <figure class="image-container target">
+            <img src="" crossorigin='anonymous' alt="" id="target">
+
+          </figure>
+        </div>
+
+      </section>
+    </div>
+  </div>
+
+  <nav id="menu" class="menu">
+        <button class="menu__handle"><span>Menu</span></button>
+        <div class="menu__inner">
+          <ul>
+            <li><a href="./index.html" target='_blank'><i class="fa fa-plus" aria-hidden="true"></i>
+New Window</a></li>
+            <li><a href="javascript:openfromurl()"><i class="fa fa-globe" aria-hidden="true"></i>
+ Open from URL</a></li>
+            <li><a href="#"><i class="fa fa-upload" aria-hidden="true"></i>
+                    Upload New Image
+                  <input style='opacity: 0;
+                      margin-top: -20px;
+                      position: absolute;
+                      width: 100%;
+                      float: left;
+                      height: 20px;
+                    ' type="file" name="uploadImage" id="uploadImage" onchange="imageUploaded()">                  
+                </a>
+             </li>
+            <li><a href="" target='_blank' download><i class="fa fa-download" aria-hidden="true"></i> Download</a></li>
+          </ul>
+        </div>
+        <div class="morph-shape" data-morph-open="M-10,100c0,0,44-95,290-95c232,0,290,95,290,95" data-morph-close="M-10,100c0,0,44,95,290,95c232,0,290-95,290-95">
+          <svg width="100%" height="100%" viewBox="0 0 560 200" preserveAspectRatio="none">
+            <path fill="none" d="M-10,100c0,0,44,0,290,0c232,0,290,0,290,0"/>
+          </svg>
+        </div>
+  </nav>
+
+  <script src="./libs/fabric/fabric.js"></script>
+  <script src="./libs/darkroom/darkroom.js"></script>
+
+  <script>
+function convertImgToDataURLviaCanvas(url, callback){
+    var img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.onload = function(){
+        var canvas = document.createElement('CANVAS');
+        var ctx = canvas.getContext('2d');
+        canvas.height = this.height;
+        canvas.width = this.width;
+        var compositeOperation = ctx.globalCompositeOperation;
+        ctx.globalCompositeOperation = "destination-over";
+        ctx.fillStyle = "rgba(0,0,0,0)";
+        ctx.drawImage(this, 0, 0);
+        var dataURL = canvas.toDataURL("png");
+        callback(dataURL);
+        canvas = null; 
+    };
+    img.src = url;
+}
+
+ var emptyPNG = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII="
+var canvasWidth = 300;
+
+ var url = window.location.hash.replace("#","");
+ document.getElementById("target").src = url;
+ setTimeout("sstart()", 300);
+ function sstart(){
+    var dkrm = new Darkroom('#target', {
+      // Size options
+      minWidth: 200,
+      minHeight: 200,
+      maxWidth: window.innerWidth*.9,
+      maxHeight: window.innerHeight*.9,
+     // ratio: 4/3,
+      backgroundColor: 'transparent',
+
+      // Plugins options
+      plugins: {
+        save: false,
+        crop: {
+          quickCropKey: 67, //key "c"
+          minHeight: 50,
+          minWidth: 50,
+          //ratio: 4/3
+        }
+      },
+
+      // Post initialize script
+      initialize: function() {
+        sessionStorage.setItem("ie-data",dkrm.canvas.toDataURL());
+        var cropPlugin = this.plugins['crop'];
+        // cropPlugin.selectZone(170, 25, 300, 300);
+        //cropPlugin.requireFocus();
+        this.addEventListener('core:transformation', function() { 
+           sessionStorage.setItem("ie-data",dkrm.canvas.toDataURL());
+           sessionStorage.setItem("ie-smp", "true");
+        });
+      }
+    });
+                      }
+
+  </script>
+
+    <script>
+
+
+( function( window ) {
+
+'use strict';
+
+// class helper functions from bonzo https://github.com/ded/bonzo
+
+function classReg( className ) {
+  return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
+}
+
+// classList support for class management
+// altho to be fair, the api sucks because it won't accept multiple classes at once
+var hasClass, addClass, removeClass;
+
+if ( 'classList' in document.documentElement ) {
+  hasClass = function( elem, c ) {
+    return elem.classList.contains( c );
+  };
+  addClass = function( elem, c ) {
+    elem.classList.add( c );
+  };
+  removeClass = function( elem, c ) {
+    elem.classList.remove( c );
+  };
+}
+else {
+  hasClass = function( elem, c ) {
+    return classReg( c ).test( elem.className );
+  };
+  addClass = function( elem, c ) {
+    if ( !hasClass( elem, c ) ) {
+      elem.className = elem.className + ' ' + c;
+    }
+  };
+  removeClass = function( elem, c ) {
+    elem.className = elem.className.replace( classReg( c ), ' ' );
+  };
+}
+
+function toggleClass( elem, c ) {
+  var fn = hasClass( elem, c ) ? removeClass : addClass;
+  fn( elem, c );
+}
+
+var classie = {
+  // full names
+  hasClass: hasClass,
+  addClass: addClass,
+  removeClass: removeClass,
+  toggleClass: toggleClass,
+  // short names
+  has: hasClass,
+  add: addClass,
+  remove: removeClass,
+  toggle: toggleClass
+};
+
+// transport
+if ( typeof define === 'function' && define.amd ) {
+  // AMD
+  define( classie );
+} else {
+  // browser global
+  window.classie = classie;
+}
+
+})( window );
+
+
+      (function() {
+
+        function SVGMenu( el, options ) {
+          this.el = el;
+          this.init();
+        }
+
+        SVGMenu.prototype.init = function() {
+          this.trigger = this.el.querySelector( 'button.menu__handle' );
+          this.shapeEl = this.el.querySelector( 'div.morph-shape' );
+
+          var s = Snap( this.shapeEl.querySelector( 'svg' ) );
+          this.pathEl = s.select( 'path' );
+          this.paths = {
+            reset : this.pathEl.attr( 'd' ),
+            open : this.shapeEl.getAttribute( 'data-morph-open' ),
+            close : this.shapeEl.getAttribute( 'data-morph-close' )
+          };
+
+          this.isOpen = false;
+
+          this.initEvents();
+        };
+
+        SVGMenu.prototype.initEvents = function() {
+          this.trigger.addEventListener( 'click', this.toggle.bind(this) );
+        };
+
+        SVGMenu.prototype.toggle = function() {
+          var self = this;
+
+          if( this.isOpen ) {
+            classie.remove( self.el, 'menu--anim' );
+            setTimeout( function() { classie.remove( self.el, 'menu--open' ); }, 250 );
+            
+            this.pathEl.stop().animate( { 'path' : this.paths.close }, 350, mina.easeout, function() {
+              self.pathEl.stop().animate( { 'path' : self.paths.reset }, 700, mina.elastic );
+            } );
+          }
+          else {
+            classie.add( self.el, 'menu--anim' );
+            setTimeout( function() { classie.add( self.el, 'menu--open' );  }, 250 );
+            
+            this.pathEl.stop().animate( { 'path' : this.paths.open }, 350, mina.backin, function() {
+              self.pathEl.stop().animate( { 'path' : self.paths.reset }, 700, mina.elastic );
+            } );
+          }
+          this.isOpen = !this.isOpen;
+        };
+
+        new SVGMenu( document.getElementById( 'menu' ) );
+
+      })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+.darkroom-container {
+    position: relative
+}
+
+.darkroom-image-container {
+    top: 0;
+    left: 0
+}
+
+.darkroom-toolbar {
+    display: block;
+    position: fixed;
+    top: 0px;
+    float: left;
+    left: 0;
+    background: #444;
+    height: 55px;
+    min-width: 100%;
+    z-index: 99;
+    border-radius: 2px;
+    white-space: nowrap;
+    padding: 0 5px
+}
+
+.darkroom-toolbar:before {
+    content: "";
+    position: absolute;
+    bottom: -7px;
+    left: 20px;
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 7px solid #444;
+    display: none;
+}
+
+.darkroom-button-group {
+    display: inline-block;
+    margin: 0;
+    padding: 0
+}
+
+.darkroom-button-group:last-child {
+    border-right: none
+}
+
+.darkroom-button {
+    box-sizing: border-box;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 2px 0 0 0;
+    width: 50px;
+    height: 50px;
+  font-size: 30px;
+text-align: center;
+    color: white;
+}
+
+.darkroom-button:hover {
+    cursor: pointer;
+    background: #555
+}
+
+.darkroom-button:active {
+    cursor: pointer;
+    background: #333
+}
+
+.darkroom-button:disabled {
+    color: #666
+}
+
+.darkroom-button:disabled:hover {
+    cursor: default;
+    background: transparent
+}
+
+.darkroom-button.darkroom-button-active .fa{
+    color: #33b5e5
+}
+
+.darkroom-button.darkroom-button-hidden {
+    display: none
+}
+
+.darkroom-button.darkroom-button-success .fa{
+    color: #99cc00
+}
+
+.darkroom-button.darkroom-button-warning .fa{
+    color: #FFBB33
+}
+
+.darkroom-button.darkroom-button-danger .fa{
+    color: #FF4444
+}
+
+.darkroom-icon {
+    width: 30px;
+    height: 50px;
+    color: #fff
+}
